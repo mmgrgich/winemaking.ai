@@ -1,4 +1,3 @@
-
 import requests
 import streamlit as st
 
@@ -6,7 +5,7 @@ BASE_URL = "https://api.vintrace.com/api/v1"
 
 def get_headers():
     return {
-        "Authorization": f"Bearer {st.secrets['VINTRACE_API_KEY']}",
+        "Authorization": f"Bearer {st.secrets['API_TOKEN']}",
         "Accept": "application/json"
     }
 
