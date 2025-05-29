@@ -2,7 +2,7 @@ import requests
 import streamlit as st
 
 # Set this to your actual vintrace domain, e.g. "acme.vintrace.com"
-BASE_URL = "https://us42.vintrace.net/grgich/api/v7"
+BASE_URL = "https://us42.vintrace.net/grgich/api/v9"
 
 def get_headers():
     return {
