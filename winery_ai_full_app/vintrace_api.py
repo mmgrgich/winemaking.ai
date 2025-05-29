@@ -1,7 +1,6 @@
 import requests
 import streamlit as st
 
-# Set this to your actual vintrace domain, e.g. "acme.vintrace.com"
 BASE_URL = "https://us42.vintrace.net/grgich/api/v9"
 
 def get_headers():
@@ -11,7 +10,6 @@ def get_headers():
     }
 
 def get_bulk_wine():
-    """Fetch bulk wine data from Vintrace."""
     response = requests.get(f"{BASE_URL}/vessel", headers=get_headers())
     if response.status_code == 200:
         return response.json()
@@ -20,7 +18,6 @@ def get_bulk_wine():
         return None
 
 def get_lab_results(wine_id=None, lot_code=None):
-    """Fetch lab results from Vintrace."""
     params = {}
     if wine_id:
         params["wineId"] = wine_id
@@ -34,9 +31,13 @@ def get_lab_results(wine_id=None, lot_code=None):
         st.error(f"Failed to fetch lab results: {response.status_code} {response.text}")
         return None
 
-# Example usage (uncomment in your Streamlit app as needed):
-#
-# bulk_wine_data = get_bulk_wine()
-# lab_results_data = get_lab_results()
-# st.write("Bulk Wine:", bulk_wine_data)
-# st.write("Lab Results:", lab_results_data)
+def get_movements(params=None):
+    """Fetch movement logs from Vintrace."""
+    if params is None:
+        params = {}
+    response = requests.get(f"{BASE_URL}/movements", headers=get_headers(), params=params)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        st.error(f"Failed to fetch movements: {response.status_code} {response.text}")
+        return None
