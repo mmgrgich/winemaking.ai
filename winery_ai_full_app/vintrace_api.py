@@ -6,7 +6,7 @@ BASE_URL = "https://us42.vintrace.net/grgich/api/"
 
 def get_headers():
     return {
-        "Authorization": f"Bearer {st.secrets['API_TOKEN']}",
+        "Authorization": f"Bearer {st.secrets["API_TOKEN"]}",
         "Accept": "application/json"
     }
 
