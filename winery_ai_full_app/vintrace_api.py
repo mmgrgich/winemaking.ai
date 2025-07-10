@@ -51,7 +51,7 @@ def get_lab_results(wine_id=None, lot_code=None, from_date=None, to_date=None):
         params["startDate"] = from_date
     if to_date:
         params["endDate"] = to_date
-    url = f"{BASE_URL}v6/transaction/search"
+    url = f"{BASE_URL}v6/products/list"
     return safe_api_call(url, params, description="fetching lab results (analysis ops)")
 
 # ✅ Movements (all job types)
