@@ -1,4 +1,3 @@
-
 import streamlit as st
 from vintrace_api import get_bulk_wine
 import requests 
@@ -15,10 +14,22 @@ with st.spinner("Fetching bulk wine data..."):
         st.warning("No bulk wine data found or API error.")
         url = "https://us42.vintrace.net/grgich/api/v6/products/list"
 
-querystring = {"skipMetrics":"true"}
+        querystring = {"skipMetrics": "true"}
+        headers = {"Accept": "application/json"}
 
-headers = {"Accept": "application/json"}
-
-response = requests.get(url, headers=headers, params=querystring)
-
-print(response.json())
+        try:
+            response = requests.get(url, headers=headers, params=querystring)
+            if response.status_code == 200:
+                try:
+                    json_data = response.json()
+                    st.write("API raw data:", json_data)
+                except requests.exceptions.JSONDecodeError:
+                    st.error("API response is not valid JSON.")
+                    st.text("Raw response:")
+                    st.text(response.text)
+            else:
+                st.error(f"API returned status code {response.status_code}")
+                st.text("Raw response:")
+                st.text(response.text)
+        except requests.exceptions.RequestException as e:
+            st.error(f"Request failed: {e}")
