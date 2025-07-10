@@ -36,7 +36,7 @@ def safe_api_call(url, params=None, description="API call"):
 # ✅ Bulk Wine - Confirmed endpoint
 def get_bulk_wine():
     """Fetch all bulk wine batches."""
-    url = f"{BASE_URL}v7/wine-batch"
+    url = f"{BASE_URL}v6/products/list"
     return safe_api_call(url, description="fetching bulk wine batches")
 
 # ✅ FIXED: Lab Results via ANALYSIS ops in transaction search
