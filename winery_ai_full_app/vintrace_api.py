@@ -1,8 +1,8 @@
 import requests
 import streamlit as st
 
-# Replace with your actual Vintrace domain (e.g., us42, v9, etc.)
-BASE_URL = "https://us42.vintrace.net/grgich/api/"
+# Use your correct base path (confirm no extra "/grgich" unless Dev Tools shows it!)
+BASE_URL = "https://us42.vintrace.net/api/"
 
 def get_headers():
     return {
@@ -11,7 +11,6 @@ def get_headers():
     }
 
 def safe_api_call(url, params=None, description="API call"):
-    """Unified error-handling wrapper for API GET calls."""
     try:
         response = requests.get(url, headers=get_headers(), params=params, timeout=10)
         if response.status_code == 200:
@@ -36,11 +35,11 @@ def safe_api_call(url, params=None, description="API call"):
 
 def get_bulk_wine():
     """Fetch all bulk wine batches."""
-    url = f"{BASE_URL}v1/wine/batch"
+    url = f"{BASE_URL}v7/wine-batch"
     return safe_api_call(url, description="fetching bulk wine batches")
 
 def get_lab_results(wine_id=None, lot_code=None, from_date=None, to_date=None):
-    """Fetch recent lab results, optionally filtered by batch/lot and date."""
+    """Fetch lab results filtered by wine ID or lot code and optional dates."""
     params = {}
     if wine_id:
         params["wineId"] = wine_id
@@ -50,19 +49,16 @@ def get_lab_results(wine_id=None, lot_code=None, from_date=None, to_date=None):
         params["fromDate"] = from_date
     if to_date:
         params["toDate"] = to_date
-    url = f"{BASE_URL}v1/lab/result"
+    url = f"{BASE_URL}v7/lab-result"
     return safe_api_call(url, params, description="fetching lab results")
 
-def get_movements(start_date=None, end_date=None, wine_id=None, job_type=None):
-    """Fetch planned/completed jobs (movements), optionally filtered."""
+def get_movements(start_date=None, end_date=None):
+    """Fetch wine movements (jobs/transactions)."""
     params = {}
     if start_date:
-        params["fromDate"] = start_date
+        params["startDate"] = start_date
     if end_date:
-        params["toDate"] = end_date
-    if wine_id:
-        params["wineId"] = wine_id
-    if job_type:
-        params["type"] = job_type
-    url = f"{BASE_URL}v1/job"
-    return safe_api_call(url, params, description="fetching wine movements/jobs")
+        params["endDate"] = end_date
+    url = f"{BASE_URL}v6/transaction/search"
+    return safe_api_call(url, params, description="fetching movements")
+
