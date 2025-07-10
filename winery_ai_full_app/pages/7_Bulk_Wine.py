@@ -1,18 +1,28 @@
 import streamlit as st
 from vintrace_api import get_bulk_wine
+import pandas as pd
 import requests
 
 st.set_page_config(page_title="Bulk Wine", layout="wide")
 st.title("📦 Live Bulk Wine Inventory")
 
-# Get the API token from Streamlit secrets
-api_token = st.secrets.get("API_TOKEN")  # Replace with your actual secret key name
+# Fetch the API token from secrets
+api_token = st.secrets.get("vintrace_api_token")
 
 with st.spinner("Fetching bulk wine data..."):
     data = get_bulk_wine()
     if data and isinstance(data, list):
-        st.success(f"{len(data)} bulk wine records loaded")
-        st.dataframe(data)
+        df = pd.DataFrame(data)
+        st.success(f"{len(df)} bulk wine records loaded")
+
+        # --- SEARCH FILTER ---
+        search = st.text_input("🔎 Search bulk wine (by any column):").strip().lower()
+        if search:
+            filtered_df = df[df.apply(lambda row: row.astype(str).str.lower().str.contains(search).any(), axis=1)]
+        else:
+            filtered_df = df
+
+        st.dataframe(filtered_df)
     else:
         st.warning("No bulk wine data found or API error.")
 
