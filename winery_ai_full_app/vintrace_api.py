@@ -2,7 +2,7 @@ import requests
 import streamlit as st
 
 # ✅ Confirmed correct base URL for your instance
-BASE_URL = "https://us42.vintrace.net/api/"
+BASE_URL = "https://us42.vintrace.net/grgich/api/"
 
 def get_headers():
     return {
