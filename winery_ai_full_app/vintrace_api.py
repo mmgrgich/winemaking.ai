@@ -1,7 +1,7 @@
 import requests
 import streamlit as st
 
-# Use your correct base path (confirm no extra "/grgich" unless Dev Tools shows it!)
+# ✅ Confirmed correct base URL for your instance
 BASE_URL = "https://us42.vintrace.net/api/"
 
 def get_headers():
@@ -33,27 +33,30 @@ def safe_api_call(url, params=None, description="API call"):
         st.error(f"Unexpected error during {description}: {e}")
     return None
 
+# ✅ Bulk Wine - Confirmed endpoint
 def get_bulk_wine():
     """Fetch all bulk wine batches."""
     url = f"{BASE_URL}v7/wine-batch"
     return safe_api_call(url, description="fetching bulk wine batches")
 
+# ✅ FIXED: Lab Results via ANALYSIS ops in transaction search
 def get_lab_results(wine_id=None, lot_code=None, from_date=None, to_date=None):
-    """Fetch lab results filtered by wine ID or lot code and optional dates."""
-    params = {}
+    """Fetch lab results (ANALYSIS operations) via transaction search."""
+    params = {"type": "ANALYSIS"}
     if wine_id:
         params["wineId"] = wine_id
     if lot_code:
         params["lotCode"] = lot_code
     if from_date:
-        params["fromDate"] = from_date
+        params["startDate"] = from_date
     if to_date:
-        params["toDate"] = to_date
-    url = f"{BASE_URL}v7/lab-result"
-    return safe_api_call(url, params, description="fetching lab results")
+        params["endDate"] = to_date
+    url = f"{BASE_URL}v6/transaction/search"
+    return safe_api_call(url, params, description="fetching lab results (analysis ops)")
 
+# ✅ Movements (all job types)
 def get_movements(start_date=None, end_date=None):
-    """Fetch wine movements (jobs/transactions)."""
+    """Fetch wine movements (all job types)."""
     params = {}
     if start_date:
         params["startDate"] = start_date
@@ -61,4 +64,3 @@ def get_movements(start_date=None, end_date=None):
         params["endDate"] = end_date
     url = f"{BASE_URL}v6/transaction/search"
     return safe_api_call(url, params, description="fetching movements")
-
