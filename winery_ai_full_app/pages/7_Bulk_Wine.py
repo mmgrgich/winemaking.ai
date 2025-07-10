@@ -6,7 +6,7 @@ st.set_page_config(page_title="Bulk Wine", layout="wide")
 st.title("📦 Live Bulk Wine Inventory")
 
 # Get the API token from Streamlit secrets
-api_token = st.secrets.get("vintrace_api_token")  # Replace with your actual secret key name
+api_token = st.secrets.get("API_TOKEN")  # Replace with your actual secret key name
 
 with st.spinner("Fetching bulk wine data..."):
     data = get_bulk_wine()
