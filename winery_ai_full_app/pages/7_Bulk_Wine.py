@@ -13,7 +13,7 @@ with st.spinner("Fetching bulk wine data..."):
         st.dataframe(data)
     else:
         st.warning("No bulk wine data found or API error.")
-        url = "https://oz50.vintrace.net/vinx2/api/v6/products/list"
+        url = "https://us42.vintrace.net/grgich/api/v6/products/list"
 
 querystring = {"skipMetrics":"true"}
 
