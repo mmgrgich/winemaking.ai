@@ -55,5 +55,5 @@ def get_lab_results(wine_id=None, lot_code=None):
         params["wineId"] = wine_id
     if lot_code:
         params["lotCode"] = lot_code
-    url = f"{BASE_URL}/lab-results"
+    url = f"{BASE_URL}lab-results"
     return safe_api_call(url, params, description="fetching lab results")
