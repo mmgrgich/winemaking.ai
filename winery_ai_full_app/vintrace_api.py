@@ -12,7 +12,7 @@ def get_headers():
 
 def safe_api_call(url, params=None, description="API call"):
     try:
-        response = requests.get(url, headers=get_headers(), params=params, timeout=30)
+        response = requests.get(url, headers=get_headers(), params=params, timeout=120)
         if response.status_code == 200:
             return response.json()
         elif response.status_code == 401:
