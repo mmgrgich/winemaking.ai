@@ -7,7 +7,7 @@ st.set_page_config(page_title="Bulk Wine", layout="wide")
 st.title("📦 Live Bulk Wine Inventory")
 
 # Fetch the API token from secrets
-api_token = st.secrets.get("vintrace_api_token")
+api_token = st.secrets.get("API_TOKEN")
 
 with st.spinner("Fetching bulk wine data..."):
     data = get_bulk_wine()
